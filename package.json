@@ -10,6 +10,7 @@
     "lint:fix": "eslint app/ --fix"
   },
   "dependencies": {
+    "@expo/vector-icons": "^10.0.5",
     "expo": "^35.0.0",
     "expo-font": "^7.0.0",
     "firebase": "^7.0.0",

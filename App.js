@@ -1,34 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 /** */
-import { AppLoading } from 'expo';
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Footer,
-  FooterTab,
-  Button,
-  Left,
-  Right,
-  Body,
-  Icon,
-  Text
-} from 'native-base';
+import { Text, Container } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 /** */
-// import { FB, dbFB, authFB, storageFB } from './config/config';
-// import registerUser, { getCurrentUserLogin } from './src/utils/bdFunction';
 import { getCurrentUserLogin } from './src/utils/bdFunction';
+import LoginF from './src/components/login/LoginF';
+import HeaderApp from './src/components/nav/HeaderApp';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loggedIn: false,
-      isReady: false
+      isReady: false,
     };
   }
 
@@ -36,65 +22,45 @@ export default class App extends Component {
     await Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-      ...Ionicons.font
+      ...Ionicons.font,
     });
-    this.setState({ ...this.state, isReady: true });
+    this.setState((prevState) => ({
+      ...prevState,
+      isReady: true,
+    }));
   }
 
-  isUserLoggedIn = async () => {
-    userInfo = await getCurrentUserLogin();
+  async isUserLoggedIn() {
+    const userInfo = await getCurrentUserLogin();
     if (userInfo) {
-      this.setState({
-        ...this.state,
-        loggedIn: true
-      });
+      this.setState((prevState) => ({
+        ...prevState,
+        loggedIn: true,
+      }));
     } else {
-      this.setState({
-        ...this.state,
-        loggedIn: false
-      });
+      this.setState((prevState) => ({
+        ...prevState,
+        loggedIn: false,
+      }));
     }
-  };
+  }
 
   render() {
-    if (!this.state.isReady) {
-      console.log('cargando ...');
-      return <AppLoading />;
+    const { isReady } = this.state;
+
+    if (!isReady) {
+      return (
+        <View>
+          <Text>Cargando...</Text>
+        </View>
+      );
     }
 
     return (
       <Container>
-        <Header>
-          <Left>
-            <Button transparent>
-              <Icon name="menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Header</Title>
-          </Body>
-          <Right />
-        </Header>
-        <Content>
-          <Text>This is Content Section</Text>
-        </Content>
-        <Footer>
-          <FooterTab>
-            <Button full>
-              <Text>Footer</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+        <HeaderApp title="Share Products" />
+        <LoginF />
       </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});

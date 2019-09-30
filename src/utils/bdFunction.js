@@ -12,20 +12,18 @@ import { FB, authFB } from '../../config/config';
 export const loginUser = async ({ email, password }) => {
   const user = {
     isLogged: false,
-    info: null
+    info: null,
   };
   if (!(email && password)) return user;
 
   try {
-    response = await authFB.signInWithEmailAndPassword(email, password);
+    const response = await authFB.signInWithEmailAndPassword(email, password);
     user.isLogged = true;
     user.info = response;
     return user;
   } catch (error) {
     throw new Error(error);
   }
-
-  return user;
 }; // End loginUser
 
 /**
@@ -46,12 +44,11 @@ export const logOutUser = async () => {
  * @returns `Object user` if the user is logged in otherwise
  */
 export const getCurrentUserLogin = () => {
-  FB.auth().onAuthStateChanged(user => {
+  FB.auth().onAuthStateChanged((user) => {
     if (user) {
       return user;
-    } else {
-      return null;
     }
+    return null;
   });
 }; // End getCurrentUserLogin
 
@@ -66,7 +63,7 @@ const registerUser = async ({ email, password }) => {
   try {
     const response = await authFB.createUserWithEmailAndPassword(
       email,
-      password
+      password,
     );
     return response;
   } catch (error) {

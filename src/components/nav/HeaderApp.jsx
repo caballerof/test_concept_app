@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+/** */
+import { Header, Right, Button, Left, Icon, Body, Title } from 'native-base';
 
-const HeaderApp = props => {
-  const { title } = props;
+const HeaderApp = (props) => {
+  const { title, icon } = props;
   return (
     <Header>
       <Left>
         <Button transparent>
-          <Icon name="menu" />
+          <Icon name={icon} />
         </Button>
       </Left>
       <Body>
@@ -18,12 +20,11 @@ const HeaderApp = props => {
   );
 };
 
-HeaderApp.defaultProps = {
-  title: 'App Test',
-};
+HeaderApp.defaultProps = { title: 'App Test 1', icon: 'menu' };
 
 HeaderApp.propTypes = {
   title: PropTypes.string,
+  icon: PropTypes.string,
 };
 
 export default HeaderApp;
